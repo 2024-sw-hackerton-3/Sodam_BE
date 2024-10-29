@@ -11,6 +11,8 @@ enum class ErrorCode(
     USER_MISMATCH(403, "You are not owner"),
 
     USER_NOT_FOUND(404, "User not found"),
+    FOOD_NOT_FOUND(404, "Food not found"),
+    ALLERGY_NOT_FOUND(404, "Allergy not found"),
 
     ALREADY_EXIST_ID(409, "already exists"),
 
