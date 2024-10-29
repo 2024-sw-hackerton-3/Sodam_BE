@@ -4,7 +4,7 @@ import org.example.sodam.domain.user.domain.User
 import org.example.sodam.domain.user.domain.UserRepository
 import org.example.sodam.domain.user.exception.AlreadyExistIdException
 import org.example.sodam.domain.user.facade.UserFacade
-import org.example.sodam.domain.user.presentation.dto.request.SignUpRequest
+import org.example.sodam.domain.user.presentation.dto.request.SignRequest
 import org.example.sodam.global.jwt.JwtTokenProvider
 import org.sodam.global.jwt.dto.TokenResponse
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -19,7 +19,7 @@ class UerSignUpService(
     private val jwtTokenProvider: JwtTokenProvider
 ) {
     @Transactional
-    fun signUp(request: SignUpRequest): TokenResponse {
+    fun signUp(request: SignRequest): TokenResponse {
         if (userFacade.checkAccountIdExist(request.accountId)) throw AlreadyExistIdException
 
         val user = userRepository.save(
