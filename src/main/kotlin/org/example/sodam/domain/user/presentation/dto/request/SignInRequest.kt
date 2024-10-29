@@ -1,6 +1,6 @@
 package org.example.sodam.domain.user.presentation.dto.request
 
-data class SignRequest(
+data class SignInRequest(
     val accountId: String,
     val password: String
 )
