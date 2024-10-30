@@ -5,7 +5,7 @@ data class GPTResponse(
     val `object`: String,
     val created: Long,
     val model: String,
-    val choices: List<Choice>,
+    val choices: Choice,
     val usage: Usage
 )
 

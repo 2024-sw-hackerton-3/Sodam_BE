@@ -61,7 +61,7 @@ class GPTImageFeignClientService(
 
         val gptResponse = Gson().fromJson(imageRecipeInfo, GPTResponse::class.java)
 
-        val content = gptResponse.choices[0].message.content.replace("\\", "")
+        val content = gptResponse.choices.message.content.replace("\\", "")
 
         val recipeContent = Gson().fromJson(content, ImageRecipeContent::class.java)
 
