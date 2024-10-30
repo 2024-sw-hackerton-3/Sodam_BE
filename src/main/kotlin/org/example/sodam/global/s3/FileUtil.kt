@@ -71,7 +71,7 @@ class FileUtil(
         val originalFilename = file.originalFilename!!
         val ext = originalFilename.substring(originalFilename.lastIndexOf(".") + 1).lowercase(Locale.getDefault())
 
-        if (!(ext == "jpg" || ext == "jpeg" || ext == "png")) {
+        if (!(ext == "jpg" || ext == "jpeg" || ext == "png" || ext == "heic" || ext == "hwp" || ext == "pptx")) {
             throw Exception()
         }
 
