@@ -5,6 +5,7 @@ import org.example.sodam.domain.user.presentation.dto.request.SignInRequest
 import org.example.sodam.domain.user.presentation.dto.request.SignUpRequest
 import org.example.sodam.domain.user.service.AllergyService
 import org.example.sodam.domain.user.service.MainService
+import org.example.sodam.domain.user.service.MyPageService
 import org.example.sodam.domain.user.service.PointUpService
 import org.example.sodam.domain.user.service.QueryAllergyListService
 import org.example.sodam.domain.user.service.UerSignUpService
@@ -27,7 +28,8 @@ class UserController(
     private val allergyService: AllergyService,
     private val pointUpService: PointUpService,
     private val queryAllergyListService: QueryAllergyListService,
-    private val mainService: MainService
+    private val mainService: MainService,
+    private val myPageService: MyPageService
 ) {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/signup")
@@ -47,4 +49,7 @@ class UserController(
 
     @GetMapping("/main")
     fun main() = mainService.main()
+
+    @GetMapping("/my")
+    fun myPage() = myPageService.myPage()
 }
