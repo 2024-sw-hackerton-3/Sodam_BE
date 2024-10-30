@@ -30,12 +30,13 @@ class GPTImageFeignClientService(
                         "type" to "text",
                         "text" to
                             """
-                                해당 유저는 ${user!!.allergy} 음식에 알레르기를 가지고 있습니다.
+                                사용자는 ${user.allergy} 해당 항목에 알러지를 가지고 있습니다(null일시 상관X).
+                                이 레시피에 ${user.allergy}를 포함하고 있다면 'danger'의 값을 true로 반환해주세요. 해당 사항 없을 시 false를 반환해주시기 바랍니다.:
                                 아래 이미지를 분석하여 한가지 요리의 이름과 레시피를 알려주세요.
                                 답변이 중간에 끊기지 않게 해줘.
-                                답변은 아래와 같은 형태로 해주시길 바랍니다.:
+                                답변은 아래와 같은 형태로만 해주시길 바랍니다.:
                                 {
-                                    "danger": 알러지를 가지고 있는가 여부(Boolean),
+                                    "danger": 알러지를 가지고있는가 여부(Boolean),
                                     "name": "요리의 이름",
                                     "substanList": ["전체 요리에 필요한 재료 이름"],
                                     "substan": ["필요한 재료: 용량"],
@@ -61,7 +62,7 @@ class GPTImageFeignClientService(
 
         val gptResponse = Gson().fromJson(imageRecipeInfo, GPTResponse::class.java)
 
-        val content = gptResponse.choices.message.content.replace("\\", "")
+        val content = gptResponse.choices[0].message.content.replace("\\", "")
 
         val recipeContent = Gson().fromJson(content, ImageRecipeContent::class.java)
 
