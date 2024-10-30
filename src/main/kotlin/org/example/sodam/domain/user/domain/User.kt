@@ -24,9 +24,15 @@ data class User(
 
     val foods: String? = null,
 
-    var allergy: String? = null
+    var allergy: String? = null,
+
+    var point: Int = 0
 ) {
     fun updateAllergy(allergies: List<Allergy>?) {
         this.allergy = allergies?.joinToString(",")
+    }
+
+    fun pointUp(point: Int) {
+        this.point += point
     }
 }
