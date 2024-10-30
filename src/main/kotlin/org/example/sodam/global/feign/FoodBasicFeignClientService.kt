@@ -16,7 +16,7 @@ class FoodBasicFeignClientService(
     fun getFoodInfo(name: String?): List<BasicFoodResponse> {
 //        val start = Random.nextInt(1, 138)
 //        val end = minOf(start + 400, 537)
-        val foods = if(name != null) basicFoodRepository.findAllByKoNameContains("밥") else basicFoodRepository.findAll()
+        val foods = if(name != null) basicFoodRepository.findAllByKoNameContains(name) else basicFoodRepository.findAll()
 
 //        val foodBasicInfo = foodFeignClient.basicInfo(
 //            start = start.toString(),
