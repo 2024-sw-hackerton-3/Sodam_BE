@@ -24,18 +24,34 @@ class UerSignUpService(
     fun signUp(request: SignUpRequest): TokenResponse {
         if (userFacade.checkAccountIdExist(request.accountId)) throw AlreadyExistIdException
 
-        request.foods?.forEach { food ->
-            if (Food.entries.none { it == food }) throw FoodNofFoundException
+        val foodEntries = request.foods?.map { foodName ->
+            Food.entries.find { food -> food.subcategories.contains(foodName) }
+        } ?: emptyList()
+
+        foodEntries.forEach { food ->
+            if (food == null) throw FoodNofFoundException
         }
+
+        val categoryCount = mutableMapOf<Food, Int>()
+
+        foodEntries.forEach { food ->
+            categoryCount[food!!] = categoryCount.getOrDefault(food, 0) + 1
+        }
+
+        val topCategories = categoryCount.entries
+            .sortedByDescending { it.value }
+            .take(2)
+            .map { it.key }
 
         val user = userRepository.save(
             User(
                 name = request.name,
                 accountId = request.accountId,
                 password = passwordEncoder.encode(request.password),
-                foods = request.foods?.joinToString(separator = ",")
+                foods = topCategories.joinToString(separator = ",") { it.name }
             )
         )
+
         return jwtTokenProvider.getToken(user.accountId)
     }
 }

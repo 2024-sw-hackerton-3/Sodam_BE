@@ -34,4 +34,7 @@ class FoodController(
     fun imageGptRecipe(
         @RequestParam("file")file: MultipartFile
     ) = gptImageFeignClientService.getInfo(file)
+
+//    @PostMapping
+//    fun save() = saveFoodBasicInfoService.getFoodInfo(null)
 }

@@ -4,10 +4,13 @@ import org.example.sodam.domain.user.presentation.dto.request.AllergyRequest
 import org.example.sodam.domain.user.presentation.dto.request.SignInRequest
 import org.example.sodam.domain.user.presentation.dto.request.SignUpRequest
 import org.example.sodam.domain.user.service.AllergyService
+import org.example.sodam.domain.user.service.MainService
 import org.example.sodam.domain.user.service.PointUpService
+import org.example.sodam.domain.user.service.QueryAllergyListService
 import org.example.sodam.domain.user.service.UerSignUpService
 import org.example.sodam.domain.user.service.UserSignInService
 import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -22,7 +25,9 @@ class UserController(
     private val userSignUpService: UerSignUpService,
     private val userSignInService: UserSignInService,
     private val allergyService: AllergyService,
-    private val pointUpService: PointUpService
+    private val pointUpService: PointUpService,
+    private val queryAllergyListService: QueryAllergyListService,
+    private val mainService: MainService
 ) {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/signup")
@@ -34,8 +39,12 @@ class UserController(
     @PatchMapping("/allergy")
     fun allergy(@RequestBody request: AllergyRequest) = allergyService.allergies(request)
 
+    @GetMapping("/query/allergy")
+    fun allergyList() = queryAllergyListService.queryAllergyList()
+
     @PatchMapping("point")
     fun pointUp(@RequestParam point: Int) = pointUpService.pointUp(point)
 
-//    @GetMapping("/main")
+    @GetMapping("/main")
+    fun main() = mainService.main()
 }
