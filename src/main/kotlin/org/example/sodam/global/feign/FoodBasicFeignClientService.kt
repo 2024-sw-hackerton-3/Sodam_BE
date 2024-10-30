@@ -3,12 +3,14 @@ package org.example.sodam.global.feign
 import com.google.gson.Gson
 import org.example.sodam.global.feign.dto.response.BasicFoodResponse
 import org.example.sodam.global.feign.dto.response.FoodBasicResponse
+import org.example.sodam.global.s3.FileUtil
 import org.springframework.stereotype.Component
 import kotlin.random.Random
 
 @Component
 class FoodBasicFeignClientService(
-    private val foodFeignClient: FoodFeignClient
+    private val foodFeignClient: FoodFeignClient,
+    private val fileUtil: FileUtil
 ) {
 
     fun getFoodInfo(name: String?): List<BasicFoodResponse> {
@@ -28,13 +30,19 @@ class FoodBasicFeignClientService(
 
     private fun addToList(foodBasicListInfoJson: FoodBasicResponse): List<BasicFoodResponse> {
         val content = foodBasicListInfoJson.Grid_20150827000000000226_1.row ?: emptyList()
+
         return content.map { food ->
+            val image = when (food.RECIPE_NM_KO) {
+                "비빔밥" -> fileUtil.generateObjectUrl("비빔밥.webp")
+                else -> fileUtil.generateObjectUrl("기본.png")
+            }
             BasicFoodResponse(
                 id = food.RECIPE_ID,
                 koName = food.RECIPE_NM_KO,
                 summary = food.SUMRY,
                 cookingTime = food.COOKING_TIME,
-                qnt = food.QNT
+                qnt = food.QNT,
+                image = image.substringBefore("?")
             )
         }
     }

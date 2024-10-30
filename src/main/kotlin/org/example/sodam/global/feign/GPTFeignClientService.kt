@@ -8,6 +8,7 @@ import org.example.sodam.global.feign.dto.request.GPTRequest
 import org.example.sodam.global.feign.dto.request.SendMessage
 import org.example.sodam.global.feign.dto.response.GPTResponse
 import org.example.sodam.global.feign.dto.response.RecipeContent
+import org.example.sodam.global.s3.FileUtil
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 
@@ -16,7 +17,8 @@ class GPTFeignClientService(
     @Value("\${feign.gpt-key}")
     private val gptKey: String,
     private val gptFeignClient: GPTFeignClient,
-    private val userFacade: UserFacade
+    private val userFacade: UserFacade,
+    private val fileUtil: FileUtil
 ) {
     fun getInfo(name: String, cookingTime: String, qnt: String): FoodRecipe {
         val user = userFacade.getCurrentUser() ?: throw UserNotFoundException
@@ -46,6 +48,11 @@ class GPTFeignClientService(
 
         val recipeContent = Gson().fromJson(content, RecipeContent::class.java)
 
+        val image = when (recipeContent.name) {
+            "비빔밥" -> fileUtil.generateObjectUrl("비빔밥.webp")
+            else -> fileUtil.generateObjectUrl("기본.png")
+        }
+
         return FoodRecipe(
             danger = recipeContent.danger,
             name = recipeContent.name,
@@ -54,7 +61,8 @@ class GPTFeignClientService(
             substanList = recipeContent.substanList,
             substan = recipeContent.substan,
             sauce = recipeContent.sauce,
-            step = recipeContent.step
+            step = recipeContent.step,
+            image = image.substringBefore("?")
         )
     }
 }

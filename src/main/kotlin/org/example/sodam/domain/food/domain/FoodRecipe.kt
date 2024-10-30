@@ -8,5 +8,6 @@ data class FoodRecipe(
     val substanList: List<String>,
     val substan: List<String>,
     val sauce: List<String>?,
-    val step: List<String>
+    val step: List<String>,
+    val image: String
 )

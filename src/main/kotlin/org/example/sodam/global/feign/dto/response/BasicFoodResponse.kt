@@ -5,5 +5,6 @@ data class BasicFoodResponse(
     val koName: String,
     val summary: String,
     val cookingTime: String,
-    val qnt: String
+    val qnt: String,
+    val image: String
 )
