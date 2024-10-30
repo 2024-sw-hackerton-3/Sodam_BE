@@ -8,5 +8,6 @@ data class ImageRecipeContent(
     val sauce: List<String>?,
     val step: List<String>,
     val cookingTime: String,
-    val qnt: String
+    val qnt: String,
+    val image: String? = null
 )

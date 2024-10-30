@@ -1,6 +1,7 @@
 package org.example.sodam.global.feign
 
 import com.google.gson.Gson
+import org.example.sodam.domain.user.exception.UserNotFoundException
 import org.example.sodam.domain.user.facade.UserFacade
 import org.example.sodam.global.feign.dto.response.GPTResponse
 import org.example.sodam.global.feign.dto.response.ImageRecipeContent
@@ -18,7 +19,7 @@ class GPTImageFeignClientService(
     private val gptFeignClient: GPTFeignClient
 ) {
     fun getInfo(file: MultipartFile): ImageRecipeContent {
-        val user = userFacade.getCurrentUser()
+        val user = userFacade.getCurrentUser() ?: throw UserNotFoundException
         val imageUrl = fileUtil.upload(file).substringBefore("?")
         val real = fileUtil.generateObjectUrl(imageUrl)
 
@@ -37,7 +38,7 @@ class GPTImageFeignClientService(
                                 답변은 아래와 같은 형태로만 해주시길 바랍니다.:
                                 {
                                     "danger": 알러지를 가지고있는가 여부(Boolean),
-                                    "name": "요리의 이름",
+                                    "name": "요리의 한글 이름(영어이름을 가지고 있을경우 괄호 안에 영어 이름)",
                                     "substanList": ["전체 요리에 필요한 재료 이름"],
                                     "substan": ["필요한 재료: 용량"],
                                     "sauce": ["필요한 향신료 계열 양념: 용량"],
@@ -66,6 +67,10 @@ class GPTImageFeignClientService(
 
         val recipeContent = Gson().fromJson(content, ImageRecipeContent::class.java)
 
+        val image = when (recipeContent.name) {
+            "비빔밥" -> fileUtil.generateObjectUrl("비빔밥.webp")
+            else -> fileUtil.generateObjectUrl("기본.png")
+        }
         return ImageRecipeContent(
             danger = recipeContent.danger,
             name = recipeContent.name,
@@ -74,7 +79,8 @@ class GPTImageFeignClientService(
             sauce = recipeContent.sauce,
             step = recipeContent.step,
             cookingTime = recipeContent.cookingTime,
-            qnt = recipeContent.qnt
+            qnt = recipeContent.qnt,
+            image = image.substringBefore("?")
         )
     }
 }
