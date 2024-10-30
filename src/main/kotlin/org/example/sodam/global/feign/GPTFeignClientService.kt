@@ -34,15 +34,13 @@ class GPTFeignClientService(
         )
 
         val request = GPTRequest(
-            model = "gpt-4o-mini", // "gpt-4-vision-preview"
+            model = "gpt-4o-mini",
             messages = listOf(userMessage)
         )
 
         val recipeInfo = gptFeignClient.gpt("Bearer $gptKey", request)
-        println(recipeInfo)
 
         val gptResponse = Gson().fromJson(recipeInfo, GPTResponse::class.java)
-        println(gptResponse)
 
         val content = gptResponse.choices[0].message.content.replace("\\", "")
 

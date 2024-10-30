@@ -30,20 +30,20 @@ class GPTImageFeignClientService(
                         "type" to "text",
                         "text" to
                             """
-                    해당 유저는 ${user!!.allergy} 음식에 알레르기를 가지고 있습니다.
-                    아래 이미지를 분석하여 한가지 요리의 이름과 레시피를 알려주세요.
-                    답변이 중간에 끊기지 않게 해줘.
-                    답변은 아래와 같은 형태로 해주시길 바랍니다.:
-                    {
-                        "danger": 알러지를 가지고 있는가 여부(Boolean),
-                        "name": "요리의 이름",
-                        "substanList": ["전체 요리에 필요한 재료 이름"],
-                        "substan": ["필요한 재료: 용량"],
-                        "sauce": ["필요한 향신료 계열 양념: 용량"],
-                        "step": ["1. ~를 합니다", "2. ~를 합니다."],
-                        "cookingTime": "~예상 소요 시간",
-                        "qnt": "레시피 용량(eg.2인분)"
-                    }
+                                해당 유저는 ${user!!.allergy} 음식에 알레르기를 가지고 있습니다.
+                                아래 이미지를 분석하여 한가지 요리의 이름과 레시피를 알려주세요.
+                                답변이 중간에 끊기지 않게 해줘.
+                                답변은 아래와 같은 형태로 해주시길 바랍니다.:
+                                {
+                                    "danger": 알러지를 가지고 있는가 여부(Boolean),
+                                    "name": "요리의 이름",
+                                    "substanList": ["전체 요리에 필요한 재료 이름"],
+                                    "substan": ["필요한 재료: 용량"],
+                                    "sauce": ["필요한 향신료 계열 양념: 용량"],
+                                    "step": ["1. ~를 합니다", "2. ~를 합니다."],
+                                    "cookingTime": "~예상 소요 시간",
+                                    "qnt": "레시피 용량(eg.2인분)"
+                                    }
                             """.trimIndent()
                     ),
                     mapOf("type" to "image_url", "image_url" to mapOf("url" to real))
