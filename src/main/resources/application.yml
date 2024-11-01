@@ -1,6 +1,4 @@
 spring:
-  spring:
-    config.activate.on-profile: default
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${DB_URL}
@@ -13,16 +11,35 @@ spring:
     open-in-view: false
     database: mysql
 
-  jackson:
-    property-naming-strategy: SNAKE_CASE
-
 auth:
   jwt:
     secretKey: ${SECRET_KEY}
-    accessExp: ${ACCESS_EXP}
+    accessExp: 36000000
     header: "Authorization"
     prefix: "Bearer "
 
+
+cloud:
+  aws:
+    credentials:
+      access-key: ${AWS_ACCESS_KEY}
+      secret-key: ${AWS_SECRET_KEY}
+    s3:
+      bucket: ${S3_BUCKET}
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+url:
+  gpt: ${URL_GPT}
+  food: ${URL_FOOD}
+
+feign:
+  gpt-key: ${GPT_KEY}
+  food-key: ${FOOD_KEY}
+  recipe-key: ${RECIPE_KEY}
+
 server:
-  port: 8111
+  port: 8000
 
