@@ -9,6 +9,3 @@ enum class Food(val subcategories: List<String>) {
     GRILLED(listOf("불고기", "고등어구이", "삼겹살")), // 구이류
     FRIED(listOf("튀김", "치킨", "강정")) // 튀김류
 }
-
-// 김치찌개, 된장찌개는 STEW니까 STEW의 카운트를 2로 올리고
-// 김밥이 있으니까, RICE의 카운트도 1로 올ㅣㄹ는 방식으로
